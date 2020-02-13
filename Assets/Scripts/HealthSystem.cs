@@ -5,11 +5,13 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     private HungerSystem hungersystem;
-    private float ElapsedTime = 0f, FixedTime = 2f;
+    private Animator anim;
+    private float ElapsedTime = 0f, FixedTime = 5f;
     public float Health = 100;
     private void Start()
     {
         hungersystem = GetComponent<HungerSystem>();
+        anim = gameObject.GetComponent<Animator>();
     }
     public float Player_Hunger(float health)
     {
@@ -28,5 +30,17 @@ public class HealthSystem : MonoBehaviour
             ElapsedTime += Time.deltaTime;
         }
         return health;
+    }
+    public void Damage(float damage)
+    {
+        Health = Health - damage;
+    }
+    void Update()
+    {
+        if(Health==0)
+        {
+            anim.SetBool("Die",true);
+        }
+
     }
 }

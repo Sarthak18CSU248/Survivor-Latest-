@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
     private bool canJump = false;
+    private bool kick =false;
     public float jumpspeed = 20.0f;
     public float rotationSpeed = 30.0f;
     public float walkSpeed = 10.0f;
@@ -95,6 +96,14 @@ public class Player : MonoBehaviour
         {
             canrun = false;
         }
+        if(Input.GetMouseButton(0))
+        {
+            kick = true;
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            kick = false;
+        }
         if (characterController.isGrounded)
         {
             moveDir = new Vector3(0, 0, Input.GetAxis("Vertical"));
@@ -120,5 +129,6 @@ public class Player : MonoBehaviour
         animator.SetFloat("speed", dummyspeed);
         animator.SetBool("Run", canrun);
         animator.SetBool("Jump", canJump);
+        animator.SetBool("kick", kick);
     }
 }
