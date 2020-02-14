@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private HealthSystem healthsystem;
     public InventoryDisplay inventoryDisplay;
     public GameObject popup;
+    public GameObject Minimap;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -103,6 +105,14 @@ public class Player : MonoBehaviour
         if(Input.GetMouseButtonUp(0))
         {
             kick = false;
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Minimap.SetActive(true);
+        }
+        if(Input.GetKeyUp(KeyCode.M))
+        {
+            Minimap.SetActive(false);
         }
         if (characterController.isGrounded)
         {
