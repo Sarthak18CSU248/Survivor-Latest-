@@ -1,9 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class UImanager : MonoBehaviour
 {
     public GameObject Inventorytab;
+    public float lastinterval;
     public GameObject[] obj;
+    public int minutesOf1day = 6;
+    public Text day_text;
+    private int currentDay = 0; 
+    public Text txt;
     int i;
     void Start()
     {
@@ -38,6 +45,20 @@ public class UImanager : MonoBehaviour
         {
             Inventorytab.SetActive(false);
         }
+
+
+        lastinterval=Time.realtimeSinceStartup;
+        
+        int d = (int)(lastinterval * 100.0f);
+        int minutes = d / (60 * 100);
+        int seconds = (d % (60 * 100)) / 100;
+        int hundredths = d % 100;
+        string str = string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, hundredths);
+        txt.text = str;
+        currentDay =((int)Time.realtimeSinceStartup / (minutesOf1day*60)) + 1;
+        day_text.text = Convert.ToString(currentDay);
+        
+       
     }
     public void PopupDisplay(GameObject pop)
     {

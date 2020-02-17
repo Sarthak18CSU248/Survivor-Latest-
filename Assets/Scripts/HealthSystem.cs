@@ -8,7 +8,7 @@ public class HealthSystem : MonoBehaviour
     private Player player;
     private Animator anim;
     public bool death;
-    private float ElapsedTime = 0f, FixedTime = 2f;
+    private float ElapsedTime = 0f, FixedTime = 10f;
     public float Health = 100;
     private void Start()
     {
@@ -40,7 +40,7 @@ public class HealthSystem : MonoBehaviour
     }
      void Update()
     {
-        Debug.Log(death);
+        
        if(Health==0)
         {
             if (!death)

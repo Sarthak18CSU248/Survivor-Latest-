@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    private int health = 50;
+    public float health = 100;
     public Text txt;
     private Animator anim;
     public GameObject Enemy;
+   // public Image HealthBar;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +37,8 @@ public class EnemyHealth : MonoBehaviour
             }
             else
             {
-                health -= 10;
+                health -= 5;
+               
             }
         }
         
@@ -50,7 +52,7 @@ public class EnemyHealth : MonoBehaviour
     }
     void PlayerDied()
     {
-        anim.SetBool("death", false);
-        Destroy(Enemy);
+        anim.enabled = false;
+
     }
 }

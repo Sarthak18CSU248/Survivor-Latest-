@@ -10,26 +10,37 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     //public GameObject ui;
     public NavMeshAgent agent;
-    public Transform destination;
+    public Image HealthBar;
+    public Transform destination,health_bar;
     public GameObject Player;
+    public float healthbarYOffset = 2;
     //private Transform player;
     private bool stood = false;
     public float speed = 5f;
+    private EnemyHealth healthsystem;
     //public bool canwalk = false;
     //spublic bool is_hit;
-   
+
     void Start()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        
+        healthsystem = Player.GetComponent<EnemyHealth>();
+
     }
+    
 
     void Update()
     {
-       if (stood)
+        healthsystem.health = Mathf.Clamp(healthsystem.health, 0, 100);
+        HealthBar.fillAmount = (healthsystem.health / 100);
+        //health_bar.position = new Vector3(transform.position.x, transform.position.y + healthbarYOffset, transform.position.z);
+        //health_bar.LookAt(Camera.main.transform);
+
+        if (stood)
         {
             var dist = Vector3.Distance(gameObject.transform.position, destination.position);
+            Debug.Log(dist);
             
             if(dist <= 6)
             {
