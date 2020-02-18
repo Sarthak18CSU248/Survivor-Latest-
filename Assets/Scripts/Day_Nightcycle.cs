@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Day_Nightcycle : MonoBehaviour
 {
+    private UImanager ui;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,7 @@ public class Day_Nightcycle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         transform.RotateAround(Vector3.zero, Vector3.right, 30f * Time.deltaTime);
         transform.LookAt(Vector3.zero);
     }

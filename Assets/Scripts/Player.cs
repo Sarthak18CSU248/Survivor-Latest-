@@ -81,6 +81,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+        
         hunger.Hunger = Mathf.Clamp(hunger.Hunger, 0, 100);
         hungerBar.fillAmount = hunger.Hunger / 100;
         healthsystem.Health = Mathf.Clamp(healthsystem.Health, 0, 100);
