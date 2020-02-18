@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UImanager : MonoBehaviour
@@ -12,6 +13,21 @@ public class UImanager : MonoBehaviour
     private int currentDay = 0; 
     public Text txt;
     int i;
+
+    public void Game_Start()
+    {
+        SceneManager.LoadScene("Survivor");
+
+    }
+    public void Yes_Button()
+    {
+        SceneManager.LoadScene("Survivor");
+    }
+
+    public void No_Button()
+    {
+        Application.Quit();
+    }
     void Start()
     {
         Inventorytab.SetActive(false);

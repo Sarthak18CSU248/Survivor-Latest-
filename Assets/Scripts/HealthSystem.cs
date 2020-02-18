@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class HealthSystem : MonoBehaviour
         Debug.Log("Invoked");
         anim.enabled = false;
         player.enabled = false;
+        SceneManager.LoadScene("End_Screen");
     }
     
 }
