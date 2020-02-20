@@ -13,6 +13,7 @@ public class UImanager : MonoBehaviour
     private int currentDay = 0; 
     public Text txt;
     int i;
+    private Day_Nightcycle day;
 
     public void Game_Start()
     {

@@ -47,6 +47,7 @@ public class HealthSystem : MonoBehaviour
             if (!death)
             {
                 death = true;
+                FindObjectOfType<AudioManager>().Play("EDeath");
                 anim.SetTrigger("Die");
                 Invoke("Animation_Stop", 2.09f);
             }

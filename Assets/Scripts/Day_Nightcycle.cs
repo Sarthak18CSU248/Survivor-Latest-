@@ -6,16 +6,50 @@ public class Day_Nightcycle : MonoBehaviour
 {
     private UImanager ui;
     // Start is called before the first frame update
+    public Light sun;
+    public float secondsInFullDay = 60f;
+    [Range(0, 1)]
+    public float currentTimeOfDay = 0;
+    [HideInInspector]
+    public float timeMultiplier = 1f;
+
+    float sunInitialIntensity;
+
     void Start()
     {
-        
+        sunInitialIntensity = sun.intensity;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        UpdateSun();
 
-        transform.RotateAround(Vector3.zero, Vector3.right, 30f * Time.deltaTime);
-        transform.LookAt(Vector3.zero);
+        currentTimeOfDay += (Time.deltaTime / secondsInFullDay) * timeMultiplier;
+
+        if (currentTimeOfDay >= 1)
+        {
+            currentTimeOfDay = 0;
+        }
+    }
+
+    void UpdateSun()
+    {
+        sun.transform.localRotation = Quaternion.Euler((currentTimeOfDay * 360f) - 90, 170, 0);
+
+        float intensityMultiplier = 1;
+        if (currentTimeOfDay <= 0.23f || currentTimeOfDay >= 0.75f)
+        {
+            intensityMultiplier = 0;
+        }
+        else if (currentTimeOfDay <= 0.25f)
+        {
+            intensityMultiplier = Mathf.Clamp01((currentTimeOfDay - 0.23f) * (1 / 0.02f));
+        }
+        else if (currentTimeOfDay >= 0.73f)
+        {
+            intensityMultiplier = Mathf.Clamp01(1 - ((currentTimeOfDay - 0.73f) * (1 / 0.02f)));
+        }
+
+        sun.intensity = sunInitialIntensity * intensityMultiplier;
     }
 }

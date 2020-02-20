@@ -5,6 +5,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     Rigidbody mybody;
+
     public Vector3 forwardVector;
     private float lifeTimer = 2f;
     private float timer;
@@ -13,21 +14,19 @@ public class Arrow : MonoBehaviour
     void Start()
     {
         mybody = GetComponent<Rigidbody>();
-        //mybody.velocity = forwardVector * 15f;
-        //transform.rotation = Quaternion.LookRotation(mybody.velocity);
+       
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //mybody.velocity = forwardVector * 15f;
         mybody.AddForce(forwardVector * 50f * Time.deltaTime, ForceMode.VelocityChange);
-        /*timer += Time.deltaTime;
-        if(timer >=lifeTimer)
+        timer += Time.deltaTime;
+        /*if(timer >=lifeTimer)
         {
             Destroy(gameObject);
-        }
-        if(!hitSomething)
+        }*/
+        /*if(!hitSomething)
         {
             transform.rotation = Quaternion.LookRotation(mybody.velocity);
         }*/
@@ -39,9 +38,10 @@ public class Arrow : MonoBehaviour
         {
             hitSomething = true;
             stick();
+            
         }
     }
-    void stick()
+    public void stick()
     {
         mybody.constraints = RigidbodyConstraints.FreezeAll;
     }

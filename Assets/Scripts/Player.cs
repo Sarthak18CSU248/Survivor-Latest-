@@ -12,11 +12,13 @@ public class Player : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
     private bool canJump = false;
-    private bool kick =false;
+    private bool kick = false; private bool punch = false;
     public float jumpspeed = 20.0f;
     public float rotationSpeed = 30.0f;
     public float walkSpeed = 10.0f;
     public float runspeed = 10f;
+    private float ElapsedTime = 0f, FixedTime = 6f;
+    public float energy=0f;
     public Image HealthBar,hungerBar;
     private float dummyspeed;
     public InventoryObject inventory;
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
     public InventoryDisplay inventoryDisplay;
     public GameObject popup;
     public GameObject Minimap;
+    public Image energybar;
 
     private void Awake()
     {
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
     {
 
     }
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
      {
          var obj = hit.gameObject.GetComponent<Item>();
@@ -81,11 +85,27 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        
+        energy = Mathf.Clamp(energy, 0, 100);
+        energybar.fillAmount = (energy / 100);
+
+        Debug.Log(energy);
+        if (ElapsedTime > FixedTime)
+        {
+            ElapsedTime = 0f;
+            energy += 10f;    
+        }
+        else
+        {
+           
+            ElapsedTime += Time.deltaTime;
+        }
+
         hunger.Hunger = Mathf.Clamp(hunger.Hunger, 0, 100);
         hungerBar.fillAmount = hunger.Hunger / 100;
+
         healthsystem.Health = Mathf.Clamp(healthsystem.Health, 0, 100);
         HealthBar.fillAmount = healthsystem.Health / 100;
+
         healthsystem.Health = healthsystem.Player_Hunger(healthsystem.Health);
         speed = walkSpeed;
         canrun = false;
@@ -99,6 +119,10 @@ public class Player : MonoBehaviour
         {
             canrun = false;
         }
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            FindObjectOfType<AudioManager>().Play("PWalking");
+        }
         if(Input.GetMouseButton(0))
         {
             kick = true;
@@ -107,6 +131,14 @@ public class Player : MonoBehaviour
         {
             kick = false;
         }
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            punch = true;
+        }
+        if (Input.GetKeyUp(KeyCode.RightShift))
+        {
+            punch = false;
+        }
         if (Input.GetKeyDown(KeyCode.M))
         {
             Minimap.SetActive(true);
@@ -114,6 +146,17 @@ public class Player : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.M))
         {
             Minimap.SetActive(false);
+        }
+        if (energy >= 50f)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                animator.SetBool("special", true);
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                animator.SetBool("special", false);
+            }
         }
         if (characterController.isGrounded)
         {
@@ -141,5 +184,6 @@ public class Player : MonoBehaviour
         animator.SetBool("Run", canrun);
         animator.SetBool("Jump", canJump);
         animator.SetBool("kick", kick);
+        animator.SetBool("punch", punch);
     }
 }

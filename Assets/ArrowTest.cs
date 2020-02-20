@@ -6,7 +6,10 @@ public class ArrowTest : MonoBehaviour
 {
     private Animator animator;
     public Transform ArrowSpawnPoint;
+    public Camera cam;
     public GameObject ArrowPrefab;
+    public GameObject crosshair;
+    //public GameObject arrow;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,8 +19,13 @@ public class ArrowTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetMouseButtonDown(1))
         {
+            crosshair.SetActive(true);
+        }
+        if(Input.GetMouseButtonUp(1))
+        {
+            
             animator.SetBool("Shoot", true);
             Invoke("ReleaseArrow", 0.92f);
             Invoke("OnShootCompleted", 1f);
@@ -27,7 +35,7 @@ public class ArrowTest : MonoBehaviour
     void ReleaseArrow()
     {
         var go = Instantiate(ArrowPrefab, ArrowSpawnPoint);
-        go.GetComponent<Arrow>().forwardVector = transform.forward;
+        go.GetComponent<Arrow>().forwardVector = cam.transform.forward;
         go.transform.SetParent(null);
     }
 

@@ -10,7 +10,8 @@ public class EnemyHealth : MonoBehaviour
     public Text txt;
     private Animator anim;
     public GameObject Enemy;
-   // public Image HealthBar;
+    public Image HealthBar;
+    // public Image HealthBar;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,24 +21,27 @@ public class EnemyHealth : MonoBehaviour
 
     void Update()
     {
-        txt.text = Convert.ToString(health);
-       
+        //txt.text = Convert.ToString(health);
+        //health = Mathf.Clamp(health, 0, 100);
+        //HealthBar.fillAmount = (health / 100);
+
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.name == "Enemy")
+        if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("Hit Enemy");
             anim.SetBool("hit", true);
             if (health <= 0)
             {
                 anim.SetBool("death",true);
+                FindObjectOfType<AudioManager>().Play("PDeath");
                 Invoke("PlayerDied",3f);
 
             }
             else
             {
-                health -= 5;
+                other.gameObject.GetComponent<Enemy>().Enemy_health -= 5;
                
             }
         }
@@ -45,7 +49,7 @@ public class EnemyHealth : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.name == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
             anim.SetBool("hit", false);
         }
@@ -53,6 +57,7 @@ public class EnemyHealth : MonoBehaviour
     void PlayerDied()
     {
         anim.enabled = false;
+
 
     }
 }
