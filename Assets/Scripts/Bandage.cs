@@ -22,6 +22,7 @@ public class Bandage : MonoBehaviour
         if(other.gameObject.tag=="Player")
         {
             health.Health += 10;
+            FindObjectOfType<AudioManager>().Play("Bandage");
             Destroy(gameObject);
         }
     }

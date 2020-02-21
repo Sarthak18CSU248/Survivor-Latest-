@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
+    public Enemy enemy_object;
     private Vector3 movePos = Vector3.zero;
+    public Camera cam;
+    private FrostEffect frost;
     public float speed;
     private Vector3 moveDir = Vector3.zero,moveforward;
-    private bool canrun=false;
+    private bool canrun=false,canpunch=false;
     private CharacterController characterController;
     private Animator animator;
     private bool canJump = false;
@@ -26,8 +30,9 @@ public class Player : MonoBehaviour
     private HealthSystem healthsystem;
     public InventoryDisplay inventoryDisplay;
     public GameObject popup;
-    public GameObject Minimap;
+    public GameObject Minimap,special;
     public Image energybar;
+    
 
     private void Awake()
     {
@@ -35,6 +40,8 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         hunger = GetComponent<HungerSystem>();
         healthsystem = GetComponent<HealthSystem>();
+        frost = cam.GetComponent<FrostEffect>();
+        enemy_object = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>(); ;
     }
    
     void Start()
@@ -85,10 +92,9 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+
         energy = Mathf.Clamp(energy, 0, 100);
         energybar.fillAmount = (energy / 100);
-
-        Debug.Log(energy);
         if (ElapsedTime > FixedTime)
         {
             ElapsedTime = 0f;
@@ -98,6 +104,17 @@ public class Player : MonoBehaviour
         {
            
             ElapsedTime += Time.deltaTime;
+        }
+        if(energy >=50f)
+        {
+            punch = true;
+            special.SetActive(true);
+        }
+        else
+        {
+            punch = false;
+            special.SetActive(false);
+
         }
 
         hunger.Hunger = Mathf.Clamp(hunger.Hunger, 0, 100);
@@ -119,7 +136,18 @@ public class Player : MonoBehaviour
         {
             canrun = false;
         }
-        if(Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            animator.SetBool("special", punch);
+            frost.enabled = true;
+            Invoke("Frost", 10f);
+            energy -= 25;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            animator.SetBool("special", punch);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
         {
             FindObjectOfType<AudioManager>().Play("PWalking");
         }
@@ -147,17 +175,7 @@ public class Player : MonoBehaviour
         {
             Minimap.SetActive(false);
         }
-        if (energy >= 50f)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                animator.SetBool("special", true);
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                animator.SetBool("special", false);
-            }
-        }
+       
         if (characterController.isGrounded)
         {
             moveDir = new Vector3(0, 0, Input.GetAxis("Vertical"));
@@ -185,5 +203,12 @@ public class Player : MonoBehaviour
         animator.SetBool("Jump", canJump);
         animator.SetBool("kick", kick);
         animator.SetBool("punch", punch);
+       
+        //Invoke("Special_Attack", 0f);
+    }
+
+    void Frost()
+    {
+        frost.enabled = false;
     }
 }

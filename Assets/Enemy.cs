@@ -54,21 +54,32 @@ public class Enemy : MonoBehaviour
             if(dist <= 6)
             {
                 agent.isStopped = true;
-                animator.SetBool("attack",true);
+                if (energy >= 50f)
+                {
+                    animator.SetBool("special_attack", true);
+                    energy -= 20f;
+                }
+                else
+                {
+                    animator.SetBool("attack", true);
+                }
                 FindObjectOfType<AudioManager>().Play("EAttack");
             }
             else if (dist <= 20)
             {
+                animator.SetBool("special_attack", false);
                 animator.SetBool("attack", false);
                 agent.isStopped = false;
-                FindObjectOfType<AudioManager>().Play("ZRun");
                 agent.SetDestination(destination.position);
+                FindObjectOfType<AudioManager>().Play("ZRun");
             }
             else
             {
+                animator.SetBool("special_attack", false);
                 animator.SetBool("attack", false);
-                agent.isStopped = true;
                 FindObjectOfType<AudioManager>().Play("ZIdle");
+                agent.isStopped = true;
+                
             }
         }
 
@@ -94,14 +105,18 @@ public class Enemy : MonoBehaviour
     void standanim()
     {
         animator.SetBool("standup", true);
-        Invoke("OnStandAnimCompleted", 6.0f);
+        Invoke("EnemyScream", 3.05f);
+        Invoke("OnStandAnimCompleted", 6.2f);
     }
-
+    void EnemyScream()
+    {
+        FindObjectOfType<AudioManager>().Play("ZScream");
+    }
     void OnStandAnimCompleted()
     {
         stood = true;
         animator.SetBool("standup", false);
-        FindObjectOfType<AudioManager>().Play("ZScream");
     }
+    
    
 }

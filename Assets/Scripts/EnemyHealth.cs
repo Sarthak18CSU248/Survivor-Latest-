@@ -11,8 +11,7 @@ public class EnemyHealth : MonoBehaviour
     private Animator anim;
     public GameObject Enemy;
     public Image HealthBar;
-    // public Image HealthBar;
-    // Start is called before the first frame update
+    
     void Start()
     {
         txt.text = Convert.ToString(health);
@@ -21,9 +20,6 @@ public class EnemyHealth : MonoBehaviour
 
     void Update()
     {
-        //txt.text = Convert.ToString(health);
-        //health = Mathf.Clamp(health, 0, 100);
-        //HealthBar.fillAmount = (health / 100);
 
     }
     private void OnCollisionEnter(Collision other)
