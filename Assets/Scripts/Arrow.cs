@@ -44,5 +44,6 @@ public class Arrow : MonoBehaviour
     public void stick()
     {
         mybody.constraints = RigidbodyConstraints.FreezeAll;
+        Destroy(gameObject, 0.3f);
     }
 }

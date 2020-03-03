@@ -10,14 +10,15 @@ public class UImanager : MonoBehaviour
     public GameObject[] obj;
     public int minutesOf1day = 6;
     public Text day_text;
-    private int currentDay = 0; 
+    public int currentDay = 0; 
     public Text txt;
     int i;
     private Day_Nightcycle day;
 
     public void Game_Start()
     {
-        SceneManager.LoadScene("Survivor");
+        SceneManager.LoadScene("Instruction");
+        Invoke("StartGame", 5f);
 
     }
     public void Yes_Button()
@@ -74,8 +75,6 @@ public class UImanager : MonoBehaviour
         txt.text = str;
         currentDay =((int)Time.realtimeSinceStartup / (minutesOf1day*60)) + 1;
         day_text.text = Convert.ToString(currentDay);
-        
-       
     }
     public void PopupDisplay(GameObject pop)
     {
@@ -84,5 +83,9 @@ public class UImanager : MonoBehaviour
     public void PopupInactive(GameObject pop)
     {
         pop.SetActive(false);
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Survivor");
     }
 }

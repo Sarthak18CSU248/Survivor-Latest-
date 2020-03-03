@@ -7,6 +7,7 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     public Enemy enemy_object;
+    private HealthSystem health_Sys;
     private Vector3 movePos = Vector3.zero;
     public Camera cam;
     private FrostEffect frost;
@@ -41,7 +42,9 @@ public class Player : MonoBehaviour
         hunger = GetComponent<HungerSystem>();
         healthsystem = GetComponent<HealthSystem>();
         frost = cam.GetComponent<FrostEffect>();
-        enemy_object = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>(); ;
+        enemy_object = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>();
+        health_Sys=GetComponent<HealthSystem>();
+
     }
    
     void Start()
@@ -140,7 +143,7 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("special", punch);
             frost.enabled = true;
-            Invoke("Frost", 10f);
+            StartCoroutine(Frost());
             energy -= 25;
         }
         if (Input.GetKeyUp(KeyCode.Space))
@@ -207,8 +210,12 @@ public class Player : MonoBehaviour
         //Invoke("Special_Attack", 0f);
     }
 
-    void Frost()
+    private IEnumerator Frost()
     {
+        frost.enabled = true;
+        health_Sys.enabled = false;
+        yield return new WaitForSeconds(10f);
         frost.enabled = false;
+        health_Sys.enabled = true;
     }
 }

@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Arrow
   - Bandage
+  - Tags
+  - tags
   layers:
   - Default
   - TransparentFX

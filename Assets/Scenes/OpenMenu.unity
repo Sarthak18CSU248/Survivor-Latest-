@@ -238,6 +238,7 @@ MonoBehaviour:
   obj: []
   minutesOf1day: 6
   day_text: {fileID: 0}
+  currentDay: 0
   txt: {fileID: 0}
 --- !u!1 &371609200
 GameObject:

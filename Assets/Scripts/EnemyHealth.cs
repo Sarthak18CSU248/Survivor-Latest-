@@ -54,6 +54,5 @@ public class EnemyHealth : MonoBehaviour
     {
         anim.enabled = false;
 
-
     }
 }
